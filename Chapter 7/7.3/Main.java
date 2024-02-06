@@ -1,50 +1,123 @@
 import java.util.Scanner;
 
 public class Main {
+    /* ==============================================
+    ===== Challenge 7-6 - Driver's License Exam =====
+    =================================================
 
-    /* ==================================================
-    ===== Challenge 7-3 - Charge Account Validation =====
-    =====================================================
+    The local Driver's License Office has asked you to write a program that grades the written
+    portion of the driver's license exam. The exam has 20 multiple choice questions. Here are
+    the correct answers:
 
-    Create a class with a method that accepts a charge account number as its argument. The
-    method should determine whether the number is valid by comparing it to the following
-    list of valid charge account numbers.
+        1. B    6. A    11. B   16. C
+        2. D    7. B    12. C   17. C
+        3. A    8. A    13. D   18. B
+        4. A    9. C    14. A   19. D
+        5. C   10. D    15. D   20. A
 
-        5658845     4520125     7895122     8777541     8451277     1302850
-        8080152     4562555     5552012     5050552     7825877     1250255
-        1005231     6545231     3852085     7576651     7881200     4581002
+    A student must correctly answer 15 of the 20 questions to pass the exam.
 
-    The numbers should be stored in an array or in an ArrayList object. Use a sequential search
-    to locate the number passed as an argument. If the number is in the array, the method should
-    return true, indicating the number is valid. If the number is not in the array, the method
-    should return false, indicating the number is invalid.
+    Write a class named DriverExam that holds the correct answers to the exam in an array field.
+    The class should also have an array filed that holds the student's answers. The class should
+    have the following methods:
 
-    Write a program that tests the class by asking the user to enter a charge account number.
-    The program should display a message indicating whether the number is valid or invalid.
+        - passed. Returns true if the student passed the exam, or false if the student failed
+        - totalCorrect. Returns the total number of correctly answered questions
+        - totalIncorrect. Returns the total number of incorrectly answered questions
+        - questionsMissed. An int array containing the question numbers of the questions that
+          the student missed.
 
+     Demonstrate the class in a complete program that asks the user to enter the student's answers,
+     and then displays the results returned from the DriverExam class's methods.
+
+     *Input Validation: Only accept the letters A, B, C, or D as answers.*
      */
 
     public static void main(String[] args) {
         // To hold keyboard input
-        int account = 0;
-        boolean valid = false;
-        // Account number to validate
         Scanner keyboard = new Scanner(System.in);
-        System.out.println("Enter your charge account number: ");
-        account = keyboard.nextInt();
-        // Create a Validator object.
-        Validator charge = new Validator();
-        // Get a charge account number.
-        valid = charge.isValid(account);
-        // Determine whether it is valid.
-        keyboard.close();
-        if (valid == true)
+        // Number of answers
+        // Array to hold answers
+        char[] ans = new char[20];
+        // Array to hold missed questions
+        int[]missed = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+        // Create a Scanner object for keyboard input.
+
+        // Get the user's answers to the questions.
+        System.out.println("Enter your answers to the exam questions. (Make sure Caps Lock is ON!)");
+        for (int i = 1; i < 21; i++)
+            {
+                Boolean go = false;
+                String check = "";
+                char answer;
+                System.out.print("Question "+ i +": ");
+                check = keyboard.nextLine();
+                answer = check.charAt(0);
+                go = valid(check);
+                while ( go == true)
+                {
+                    System.out.print("ERROR: Valid answers are A, B, C, or D.\n");
+                    System.out.print("Question "+ i +": ");
+                    check = keyboard.nextLine();
+                    go = valid(check);
+                }
+                answer = check.charAt(0);
+                ans[i - 1] = answer;
+            }
+            // Validate the answer.
+            
+        // Create a DriverExam object.
+            DriverExam test = new DriverExam(ans);
+            
+        // Get an array of the missed question numbers.
+                String result = "";
+                if (test.passed() == true)
+                {
+                    result = "You passed the exam.";
+                }
+                else if (test.passed() == false)
+                {
+                    result = "You failed the exam.";
+                }
+                missed = test.questionsMissed();
+                System.out.println("Correct answers: "+ test.totalCorrect() +"\nIncorrect answers: "+ test.totalIncorrect()+"\n"+result+"\nYou missed the following questions:");
+                for (int i = 0; i < missed.length; i++)
+                {   if (missed[i] == 0)
+                    {
+                        break;
+                    }
+                    System.out.print(missed[i]+" ");
+                }
+                keyboard.close();
+        // Display a report.
+            
+ 
+    }
+
+    /**
+     The valid method validates a character as an
+     answer for the test.
+     @param c The character to validate.
+     @return true if the argument is A, B, C, or D.
+     false otherwise.
+     */
+    public static boolean valid(String c)
+    {
+        
+        boolean val = true;
+        
+        if (c.equals("A") || c.equals("B") || c.equals("C")||c.equals("D"))
         {
-            System.out.print("That's a valid account number.");
+            val = false;
+            
         }
-        if (valid == false)
-        {
-            System.out.print("That's an INVALID account number.");
+        else
+        {   
+            val = true;
+            
+
         }
+        
+        return val;
     }
 }
