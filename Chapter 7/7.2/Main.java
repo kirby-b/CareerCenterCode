@@ -2,82 +2,49 @@ import java.util.Scanner;
 
 public class Main {
 
-    /* ======================================
-    ===== Challenge 7-2 - Payroll Class =====
-    =========================================
+    /* ==================================================
+    ===== Challenge 7-3 - Charge Account Validation =====
+    =====================================================
 
-    Write a Payroll class that uses the following arrays as fields:
+    Create a class with a method that accepts a charge account number as its argument. The
+    method should determine whether the number is valid by comparing it to the following
+    list of valid charge account numbers.
 
-        - employeeID. An array of seven integers to hold employee identification numbers.
-          The array should be initialized with the following numbers:
-          5658845  4520125  7895122  8777541  8451277  1302850  7580489
-        - hours. An array of seven integers to hold the number of hours worked by each
-          employee.
-        - payRate. An array of seven doubles to hold each employee's hourly pay rate.
-        - wages. An array of seven doubles to hold each employee's gross wage.
+        5658845     4520125     7895122     8777541     8451277     1302850
+        8080152     4562555     5552012     5050552     7825877     1250255
+        1005231     6545231     3852085     7576651     7881200     4581002
 
-    The class should relate the data in each array through the subscripts. For example, the
-    number in element 0 of the hours array should be the number of hours worked by the employee
-    whose identification number is stored in element 0 of the employeeId array. That same
-    employee's pay rate should be stored in element 0 of the payRate array.
+    The numbers should be stored in an array or in an ArrayList object. Use a sequential search
+    to locate the number passed as an argument. If the number is in the array, the method should
+    return true, indicating the number is valid. If the number is not in the array, the method
+    should return false, indicating the number is invalid.
 
-    In addition to the appropriate accessor and mutator methods, the class should have a method
-    that accepts an employee's identification number as an argument and returns the gross pay
-    for that employee.
-
-    Demonstrate the class in a complete program that displays each employee number and asks
-    the user to enter that employee's hours and pay rate. It should then display each employee's
-    identification number and gross wages.
-
-    *Input Validation: Do not accept negative values for hours or numbers less than 6.00 for pay rate.*
+    Write a program that tests the class by asking the user to enter a charge account number.
+    The program should display a message indicating whether the number is valid or invalid.
 
      */
 
     public static void main(String[] args) {
-        // Hours worked
-        int worked = 0;
-        // Hourly pay rate
-        double payRate = 0;
-        // Create a Scanner object for keyboard input.
+        // To hold keyboard input
+        int account = 0;
+        boolean valid = false;
+        // Account number to validate
         Scanner keyboard = new Scanner(System.in);
-        // Create a Payroll object.
-        Payroll payMe = new Payroll();
-        // Get the hours and pay rate for each employee.
-          for (int i = 0; i < 7; i++)
-            {
-              System.out.print("Enter the hours worked by employee number "+ payMe.getEmployeeIdAt(i) +": ");
-              worked = keyboard.nextInt();
-              while (worked < 0)
-                {
-                  System.out.print("ERROR: Enter 0 or greater for hours: ");
-                  worked = keyboard.nextInt();
-                }
-              payMe.setHoursAt(i, worked);
-              System.out.print("Enter the hourly pay rate for employee number "+ payMe.getEmployeeIdAt(i) +": ");
-              payRate = keyboard.nextDouble();
-              while (payRate < 6)
-                {
-                  System.out.print("ERROR: Enter 6.00 or greater for pay rate: "); 
-                  payRate = keyboard.nextDouble();
-                }
-                payMe.setPayRateAt(i, payRate);
-            }
-            keyboard.close();
-            // Get the hours worked.
-
-            // Validate hours worked.
-
-            // Get the hourly pay rate.
-
-            // Validate pay rate.
-
-            // Store the data in the pr object.
-
-        // Display the payroll data for each employee.
-        System.out.println("\nPAYROLL DATA\n============");
-        for (int i = 0; i < 7; i++)
+        System.out.println("Enter your charge account number: ");
+        account = keyboard.nextInt();
+        // Create a Validator object.
+        Validator charge = new Validator();
+        // Get a charge account number.
+        valid = charge.isValid(account);
+        // Determine whether it is valid.
+        keyboard.close();
+        if (valid == true)
         {
-          System.out.printf("Employee ID: "+payMe.getEmployeeIdAt(i)+"\nGross pay: $%,.2f\n", payMe.getGrossPay(i));
+            System.out.print("That's a valid account number.");
+        }
+        if (valid == false)
+        {
+            System.out.print("That's an INVALID account number.");
         }
     }
 }
